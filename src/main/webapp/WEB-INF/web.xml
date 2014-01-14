@@ -4,16 +4,32 @@
         version="3.0">
 
     <servlet>
-        <servlet-name>Jersey Web Application</servlet-name>
+        <servlet-name>sk.dejavu.jersey.sample.MyApplication</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
-            <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>sk.dejavu.jersey.sample</param-value>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>sk.dejavu.jersey.sample.MyApplication</param-value>
         </init-param>
+
+        <!-- Csfd client configuration -->
+        <init-param>
+            <param-name>sk.dejavu.jersey.sample.ImdbClient.configClass</param-name>
+            <param-value>sk.dejavu.jersey.sample.ManagedClientConfig</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sk.dejavu.jersey.sample.ImdbClient.inheritServerProviders</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <init-param>
+            <param-name>sk.dejavu.jersey.sample.ImdbClient.property.format</param-name>
+            <param-value>json</param-value>
+        </init-param>
+
         <load-on-startup>1</load-on-startup>
     </servlet>
+
     <servlet-mapping>
-        <servlet-name>Jersey Web Application</servlet-name>
+        <servlet-name>sk.dejavu.jersey.sample.MyApplication</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
 </web-app>
