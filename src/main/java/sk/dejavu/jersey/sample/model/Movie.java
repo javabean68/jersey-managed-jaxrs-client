@@ -1,5 +1,7 @@
 package sk.dejavu.jersey.sample.model;
 
+import com.google.common.base.Objects;
+
 /**
  * @author Michal Gajdos
  */
@@ -25,5 +27,15 @@ public class Movie {
 
     public Integer getRating() {
         return rating;
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(Movie.class).
+                add("link", link).
+                add("title", title).
+                add("rating", rating).
+                omitNullValues().
+                toString();
     }
 }

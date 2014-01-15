@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import com.google.common.base.Objects;
+
 /**
  * @author Michal Gajdos
  */
@@ -33,5 +35,15 @@ public class ImdbMovie {
 
     public String getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(ImdbMovie.class).
+                add("title", title).
+                add("rating", rating).
+                add("id", id).
+                omitNullValues().
+                toString();
     }
 }

@@ -5,6 +5,8 @@ import java.util.Map;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import com.google.common.base.Objects;
+
 /**
  * @author Michal Gajdos
  */
@@ -29,5 +31,15 @@ public class CsfdMovie {
 
     public String getLink() {
         return link;
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(CsfdMovie.class).
+                add("names", names).
+                add("rating", rating).
+                add("link", link).
+                omitNullValues().
+                toString();
     }
 }

@@ -87,6 +87,8 @@ public class RatingsResource {
             // site is returning text/html for json.
             response.getHeaders().putSingle("Content-Type", "application/json");
             movie = response.readEntity(ImdbMovie.class);
+
+            movie = movie.getId() == null ? null : movie;
         }
 
         return movie == null ? null : new Movie(

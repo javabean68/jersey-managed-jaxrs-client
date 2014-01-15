@@ -22,7 +22,7 @@
         </init-param>
         <init-param>
             <param-name>sk.dejavu.jersey.sample.ImdbClient.property.format</param-name>
-            <param-value>json</param-value>
+            <param-value>xml</param-value>
         </init-param>
 
         <load-on-startup>1</load-on-startup>
