@@ -11,7 +11,7 @@
             <param-value>sk.dejavu.jersey.sample.MyApplication</param-value>
         </init-param>
 
-        <!-- Csfd client configuration -->
+        <!-- Imdb client configuration -->
         <init-param>
             <param-name>sk.dejavu.jersey.sample.ImdbClient.configClass</param-name>
             <param-value>sk.dejavu.jersey.sample.ManagedClientConfig</param-value>
