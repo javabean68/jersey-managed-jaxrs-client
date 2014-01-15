@@ -80,15 +80,18 @@ public class RatingsResource {
                 .request("application/" + format)
                 .get();
 
-        ImdbMovie movie;
-        if ("xml".equals(format)) {
-            movie = response.readEntity(ImdbRoot.class).getMovie();
-        } else {
-            // site is returning text/html for json.
-            response.getHeaders().putSingle("Content-Type", "application/json");
-            movie = response.readEntity(ImdbMovie.class);
+        ImdbMovie movie = null;
 
-            movie = movie.getId() == null ? null : movie;
+        if (response.getStatus() == 200) {
+            if ("xml".equals(format)) {
+                movie = response.readEntity(ImdbRoot.class).getMovie();
+            } else {
+                // site is returning text/html for json.
+                response.getHeaders().putSingle("Content-Type", "application/json");
+                movie = response.readEntity(ImdbMovie.class);
+
+                movie = movie.getId() == null ? null : movie;
+            }
         }
 
         return movie == null ? null : new Movie(
@@ -98,19 +101,26 @@ public class RatingsResource {
     }
 
     private Movie getCsfdRating(final String search) {
-        final List<CsfdSearch> found = csfdSearch.queryParam("search", search)
+        Response response = csfdSearch.queryParam("search", search)
                 .request()
-                .get(new GenericType<List<CsfdSearch>>() {});
+                .get();
 
-        if (!search.isEmpty()) {
-            final CsfdMovie movie = csfdMovie.resolveTemplate("id", found.get(0).getId())
-                    .request()
-                    .get(CsfdMovie.class);
+        if (response.getStatus() == 200) {
+            final List<CsfdSearch> found = response.readEntity(new GenericType<List<CsfdSearch>>() {});
+            if (!search.isEmpty()) {
+                response = csfdMovie.resolveTemplate("id", found.get(0).getId())
+                        .request()
+                        .get();
 
-            return new Movie(
-                    movie.getLink(),
-                    movie.getEnName(),
-                    movie.getRating());
+                if (response.getStatus() == 200) {
+                    final CsfdMovie movie = response.readEntity(CsfdMovie.class);
+
+                    return new Movie(
+                            movie.getLink(),
+                            movie.getEnName(),
+                            movie.getRating());
+                }
+            }
         }
 
         return null;
